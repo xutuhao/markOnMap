@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html  style="overflow : hidden; ">
+<head>
+    <title>加载栅格底图</title>
+    <meta name="content-type" content="text/html; charset=UTF-8">
+    
+    <link rel="stylesheet" href="./css/leaflet.css" />
+    <link rel="stylesheet" href="./css/layout.css" />
+    <link rel="stylesheet" href="./css/bootstrap.min.css" />
+    <link rel="stylesheet" href="./css/bootstrap-colorpalette.css" />
+
+</head>
+
+<body onload="init()">
+<div id="main">
+	<div id="head">地图标绘、测量</div>
+    <div id="center">
+    	<div id="left">
+        	<div class="leftMenu">
+            	<ul>
+                	<li title="工具" onClick="toolsIsOpen?closeToolsBox():openToolsBox()"><img src="./css/images/u335.png" ></li>
+                </ul>
+            </div>
+        	<div class="rightMenu" style="display:none">
+            	<div id="childMenu_4">
+                	<span class="childMenuSpan">测量工具</span>
+                    <ul>
+                        	<li onclick="plotTools['Horizontal']();" onMouseOver="mouseOver(this)" onMouseOut="mouseOut(this)"><img class="toolChildliImg" src = ./css/images/hor_measure.png>水平距离测量</li>
+                        	<li onclick="plotTools['Area']();" onMouseOver="mouseOver(this)" onMouseOut="mouseOut(this)"><img class="toolChildliImg" src = ./css/images/aera_measure.png>面积测量</li>
+                    </ul>
+                    <span class="childMenuSpan">标绘工具</span>
+					</br>
+                    <div class="btn-group">
+                    	<input id="plotsborderstyle" data-toggle="dropdown" type="text" readonly>
+                        <span class="dropdown-toggle" data-toggle="dropdown">线条/边框颜色</span>
+                        <ul class="dropdown-menu" >
+                        	<li>
+                        		<div  id="colorpalette1">
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+					</br>
+                    <div class="btn-group">
+                    	<input id="plotsfillstyle" data-toggle="dropdown" type="text" readonly>
+                        <span class="dropdown-toggle" data-toggle="dropdown">填充颜色</span>
+                        <ul class="dropdown-menu" >
+                        	<li>
+                        		<div  id="colorpalette2" class="bootstrap-colorpalette">
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+					</br>
+                    <div class="btn-group">
+                    	<input id="plotsfontstyle" data-toggle="dropdown" type="text" readonly>
+                        <span class="dropdown-toggle" data-toggle="dropdown">文字颜色</span>
+                        <ul class="dropdown-menu" >
+                        	<li>
+                        		<div  id="colorpalette3">
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <span class="dropdown-toggle" data-toggle="dropdown">字体大小</span>
+                        <select id='plotsfontsize'>
+                        	<option value="10">10px</option>
+                        	<option value="15">15px</option>
+                        	<option value="20">20px</option>
+                        	<option value="25">25px</option>
+                        	<option value="30" selected>30px</option>
+                        	<option value="35">35px</option>
+                        	<option value="40">40px</option>
+                        	<option value="45">45px</option>
+                        	<option value="50">50px</option>
+                        </select>
+                    </div>
+                    <ul>
+							<li onclick="plotTools['AddText']();" onMouseOver="mouseOver(this)" onMouseOut="mouseOut(this)"><img class="toolChildliImg" src = ./css/images/add_text.png>文本</li>
+                        	<li onclick="plotTools['AddPoint']();" onMouseOver="mouseOver(this)" onMouseOut="mouseOut(this)"><img class="toolChildliImg" src = ./css/images/add_point.png>点</li>
+                        	<li onclick="plotTools['Curve']();" onMouseOver="mouseOver(this)" onMouseOut="mouseOut(this)"><img class="toolChildliImg" src = ./css/images/add_curve.png>曲线</li>
+                        	<li onclick="plotTools['Polyline']();" onMouseOver="mouseOver(this)" onMouseOut="mouseOut(this)"><img class="toolChildliImg" src = ./css/images/add_brokenline.png>折线</li>
+                        	<li onclick="plotTools['FreeHandLine']();" onMouseOver="mouseOver(this)" onMouseOut="mouseOut(this)"><img class="toolChildliImg" src = ./css/images/add_FreeHandLine.png>自由线</li>
+                        	<li onclick="plotTools['Polygon']();" onMouseOver="mouseOver(this)" onMouseOut="mouseOut(this)"><img class="toolChildliImg" src = ./css/images/add_Polygon.png>多边形</li>
+                        	<li onclick="plotTools['FreeHandPolygon']();" onMouseOver="mouseOver(this)" onMouseOut="mouseOut(this)"><img class="toolChildliImg" src = ./css/images/add_FreeHandPolygon.png>自由面</li>
+                        	<li onclick="plotTools['StraightArrow']();" onMouseOver="mouseOver(this)" onMouseOut="mouseOut(this)"><img class="toolChildliImg" src = ./css/images/add_StraightArrow.png>细直箭头</li>
+                        	<li onclick="plotTools['FineArrow']();" onMouseOver="mouseOver(this)" onMouseOut="mouseOut(this)"><img class="toolChildliImg" src = ./css/images/add_FineArrow.png>直箭头</li>
+                        	<li onclick="plotTools['AssaultDirection']();" onMouseOver="mouseOver(this)" onMouseOut="mouseOut(this)"><img class="toolChildliImg" src = ./css/images/add_AssaultDirection.png>突击方向</li>
+                        	<li onclick="plotTools['SquadCombat']();" onMouseOver="mouseOver(this)" onMouseOut="mouseOut(this)"><img class="toolChildliImg" src = ./css/images/add_SquadCombat.png>分队战斗行动</li>
+                        	<li onclick="plotTools['TailedSquadCombat']();" onMouseOver="mouseOver(this)" onMouseOut="mouseOut(this)"><img class="toolChildliImg" src = ./css/images/add_TailedSquadCombat.png>分队战斗行动（尾）</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div id="map">
+			<span id="tips">提示:地图上单击开始标绘/测量，双击结束</span>
+        	<span id="jwd"></span>
+        </div>
+    </div>
+    <div id="bottom">  单位：浙江省测绘科学技术研究院   作者：徐图昊</div>
+</div>	
+
+    <script src="./js/leaflet.js"></script>
+    <script src="./js/CustomWebSDK.min.js"></script>
+    <script src="./js/jquery-3.1.1.min.js"></script>
+	<script src="./js/leaflet.draw.js"></script>
+	<script src="./js/bootstrap.min.js"></script>
+	<script src="./js/draw_plot.js"></script>
+	<script src="./js/bootstrap-colorpalette.js"></script>
+    <script src="./js/init.js"> </script>
+
+</body>
+</html>
