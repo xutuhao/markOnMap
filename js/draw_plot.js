@@ -1411,6 +1411,7 @@ plotTools.LineMeasure = {
         plotTools.LineMeasure.startPoint = [];
         plotTools.LineMeasure.sumLength=0;
         core.map.off('mousemove', plotTools.LineMeasure.mousemove).off('dblclick', plotTools.LineMeasure.onDoubleClick).off('mousedown', plotTools.LineMeasure.mousedown);
+        plotTools.closeTips();
     }
 };
 
