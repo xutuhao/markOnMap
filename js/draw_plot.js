@@ -1355,7 +1355,7 @@ plotTools.rectangleMeasure = {
         plotTools.rectangleMeasure.layer.clearLayers();
         plotTools.rectangleMeasure.startPoint = [];
         core.map.off('mousemove', plotTools.rectangleMeasure.mousemove).off('dblclick', plotTools.rectangleMeasure.onDoubleClick).off('mousedown', plotTools.rectangleMeasure.mousedown).off('mouseup', plotTools.rectangleMeasure.mouseup);
-
+	plotTools.closeTips();
     },
     ComputePolygonArea: function (points) {
         var point_num = points.length;
